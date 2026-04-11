@@ -57,24 +57,7 @@ if "user" not in st.session_state:
     st.session_state.user = None
 
 # =========================
-# LOGIN UI
-# =========================
-if st.session_state.user is None:
-    st.title("🚀 Agro SaaS Enterprise")
 
-    tab1, tab2 = st.tabs(["Login", "Cadastro"])
-# LOGIN
-with tab1:
-    login_email = st.text_input("Email", key="login_email")
-    login_password = st.text_input("Senha", type="password", key="login_pass")
-
-    if st.button("Entrar"):
-        user = login(login_email, login_password)
-        if user:
-            st.session_state.user = user
-            st.rerun()
-        else:
-            st.error("Erro no login")
 
 # CADASTRO
 with tab2:
@@ -96,7 +79,29 @@ with tab2:
         if st.button("Cadastrar"):
             if register(email, password):
                 st.success("Conta criada")
+    # LOGIN
+    with tab1:
+    login_email = st.text_input("Email", key="login_email")
+    login_password = st.text_input("Senha", type="password", key="login_pass")
 
+    if st.button("Entrar"):
+        user = login(login_email, login_password)
+        if user:
+            st.session_state.user = user
+            st.rerun()
+        else:
+            st.error("Erro no login")
+
+# CADASTRO
+    with tab2:
+    reg_email = st.text_input("Novo Email", key="reg_email")
+    reg_password = st.text_input("Nova       Senha", type="password", key="reg_pass")
+
+    if st.button("Cadastrar"):
+        if register(reg_email, reg_password):
+            st.success("Conta criada")
+        else:
+            st.error("Erro ao cadastrar")
 # =========================
 # APP
 # =========================
