@@ -1,3 +1,4 @@
+st.write("INICIOU")
 import streamlit as st
 import sqlite3
 import hashlib
