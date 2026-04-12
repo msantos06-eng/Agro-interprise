@@ -1,7 +1,3 @@
-from auth import criar_tabelas
-
-criar_tabelas()
-st.write("INICIOU")
 import streamlit as st
 import sqlite3
 import hashlib
@@ -15,6 +11,8 @@ from PIL import Image
 import io
 
 st.set_page_config(layout="wide")
+
+st.write("INICIOU")
 
 # =========================
 # DB (CORRIGIDO)
