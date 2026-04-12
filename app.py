@@ -30,25 +30,33 @@ conn.commit()
 # FUNÇÕES
 # =========================
 def hash_senha(s):
-    return hashlib.sha256(s.encode()).hexdigest()
+         return
+         hashlib.sha256(s.encode()).hexdigest()
+
 
 def gerar_taxa(ndvi):
     if ndvi < 0.3:
         return 150
-        import requests
+    elif ndvi < 0.6:
+        return 120
+    else:
+        return 80
+
 
 def get_token():
     url = "https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token"
 
     data = {
         "grant_type": "client_credentials",
-        "client_id": "SEU_CLIENT_ID",
-        "client_secret": "SEU_CLIENT_SECRET"
+        "client_id": "sh-c0dac085-be43-4a1a-846b-9f2007c39719",
+        "client_secret": "mquL3Z5gSzNGH8Dq4eAynUuczrC7P5UE"
     }
 
     r = requests.post(url, data=data)
     return r.json()["access_token"]
-    def buscar_ndvi_satellite(geojson):
+
+
+def buscar_ndvi_satellite(geojson):
     token = get_token()
 
     url = "https://sh.dataspace.copernicus.eu/api/v1/process"
