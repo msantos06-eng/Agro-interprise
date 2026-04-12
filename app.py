@@ -86,10 +86,6 @@ def buscar_ndvi_satellite(geojson):
 
     response = requests.post(url, headers=headers, json=body)
     return response.content
-    elif ndvi < 0.6:
-        return 120
-    else:
-        return 80
 
 # =========================
 # LOGIN
