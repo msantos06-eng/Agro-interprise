@@ -9,3 +9,13 @@ psycopg2-binary
 folium
 streamlit-folium
 PyJWT
+streamlit==1.37.0
+streamlit-folium==0.24.0
+
+folium==0.17.0
+
+pandas==2.2.2
+numpy==2.0.1
+
+requests==2.32.3
+Pillow==10.4.0
