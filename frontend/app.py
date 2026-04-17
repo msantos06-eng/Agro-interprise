@@ -5,9 +5,13 @@ import os
 import json
 import numpy as np
 import pandas as pd
+import streamlit as st
 
 # 🔗 API
 API = "https://agroforce-production.up.railway.app"
+
+st.write("API REAL:", API)
+
 
 # 🔐 sessão
 if "token" not in st.session_state:
