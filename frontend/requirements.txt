@@ -1,5 +1,4 @@
 streamlit
-folium
 streamlit-folium
 shapely
 numpy
@@ -8,8 +7,10 @@ geopandas
 sqlalchemy
 fastapi
 uvicorn
-sqlalchemy
 psycopg2-binary
-python-jose
-passlib[bcrypt]
-python-dotenv
+requests
+Pillow
+folium
+pyproj
+pyshp
+matplotlib
