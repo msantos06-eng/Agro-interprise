@@ -7,7 +7,9 @@ from rules import pode_criar_talhao
 from fastapi import Body
 from models.user import User
 from auth.jwt_handler import create_token
+from fastapi import FastAPI
 
+app = FastAPI()
 
 @app.post("/login")
 def login(data: dict = Body(...), db: Session = Depends(get_db)):
@@ -34,7 +36,7 @@ app = FastAPI()
 
 import requests
 
-API = "https://SEU_BACKEND.up.railway.app"
+API = "https://agroforce-production.up.app"
 
 def tela_login():
     st.title("Login")

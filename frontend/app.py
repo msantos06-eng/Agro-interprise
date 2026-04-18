@@ -1,17 +1,19 @@
 import streamlit as st
-import requests
 import sys
 import os
+import json
+import requests
 import json
 import numpy as np
 import pandas as pd
 import streamlit as st
+import streamlit as st
+st.write("VERSION TEST 123")
 
-# 🔗 API
+# 🔗 API (OBRIGATÓRIO PRIMEIRO)
 API = "https://agroforce-production.up.railway.app"
 
 st.write("API REAL:", API)
-
 
 # 🔐 sessão
 if "token" not in st.session_state:
