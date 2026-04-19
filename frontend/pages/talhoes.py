@@ -4,13 +4,20 @@ import folium
 import json
 import pandas as pd
 
+API = "https://agroforce-production.up.railway.app"
+
+# ... resto do código ...
+
+r = requests.get(
+    f"{API}/check-access",
+    headers=get_headers()
+)
 from streamlit_folium import st_folium
 from shapely.geometry import mapping
 from folium.plugins import Draw, MeasureControl, LocateControl, Geocoder
 
 from utils.geo_utils import geojson_to_shapely, compute_field_stats
 
-API = "https://agroforce-production.up.railway.app"
 
 # ---------------- ESTADO ----------------
 if "talhoes" not in st.session_state:
