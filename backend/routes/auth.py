@@ -1,6 +1,8 @@
-from fastapi import HTTPException
+
 import jwt
 import datetime
+from utils.auth import get_headers
+from fastapi import HTTPException
 
 SECRET = "SUPER_SECRET_KEY"
 
