@@ -87,12 +87,19 @@ plano = user_data.get("plan", "free")
 if plano == "free":
     st.sidebar.warning("Plano FREE")
     
-    if st.sidebar.button("Fazer Upgrade"):
-        r = requests.get(
-        f"{API}/create-payment-link",
-        headers=get_headers()
-    )
+    r = requests.get(
+    f"{API}/create-payment-link",
+    headers=get_headers()
+)
 
+st.write("STATUS:", r.status_code)
+st.write("TEXTO:", r.text)
+
+try:
+    data = r.json()
+except:
+    st.error("Erro ao converter resposta da API")
+    st.stop()
     try:
         data = r.json()
     except:
