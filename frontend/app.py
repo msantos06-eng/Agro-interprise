@@ -49,7 +49,7 @@ def tela_login():
 
     
     if st.button("Cadastrar"):
-    r = requests.post(
+        r = requests.post(
         f"{API}/register",
         json={"email": email, "password": senha}
     )
@@ -58,10 +58,6 @@ def tela_login():
         st.session_state.token = r.json()["token"]
         st.success("Conta criada!")
         st.rerun()
-    else:
-        st.error("Erro ao cadastrar")
-        st.write("STATUS:", r.status_code)
-        st.write("RESPOSTA:", r.text)
     else:
         st.error("Erro ao cadastrar")
         st.write("STATUS:", r.status_code)
