@@ -6,6 +6,7 @@ import pandas as pd
 
 import streamlit as st
 
+st.write("APP RODANDO")
 def get_headers():
     return {
         "Authorization": f"Bearer {st.session_state.get('token')}"
