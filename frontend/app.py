@@ -47,7 +47,7 @@ def tela_login():
             else:
                 st.error("Login inválido")
 
-    else:
+    
     if st.button("Cadastrar"):
         r = requests.post(
             f"{API}/register",
