@@ -114,11 +114,11 @@ with col_ctrl:
 
     # 🔐 VALIDAÇÃO DE PLANO (AQUI DENTRO)
     r = requests.get(
-        f"{API}/check-access",
-        headers=get_headers()
-    )
-st.write(r.status_code, r.json())
-  data = r.json()
+    f"{API}/check-access",
+    headers=get_headers()
+)
+
+data = r.json()
 
     if not data.get("allowed"):
     st.error("Limite do plano atingido ou trial expirado.")
