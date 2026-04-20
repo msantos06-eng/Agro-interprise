@@ -51,7 +51,7 @@ def tela_login():
         r = requests.post(
             f"{API}/register",
             json={"email": email, "password": senha}
-    )
+        )
 
     if r.status_code == 200:
         st.session_state.token = r.json()["token"]
