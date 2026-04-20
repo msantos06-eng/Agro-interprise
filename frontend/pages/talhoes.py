@@ -15,11 +15,6 @@ API = "https://agroforce-production.up.railway.app"
 
 # ... resto do código ...
 
-r = requests.get(
-    f"{API}/check-access",
-    headers=get_headers()
-)
-
 
 from streamlit_folium import st_folium
 from shapely.geometry import mapping
@@ -113,32 +108,28 @@ with col_ctrl:
         value=f"Talhão {len(st.session_state.talhoes) + 1}"
     )
 
-    # 🔐 VALIDAÇÃO DE PLANO (AQUI DENTRO)
-    def get_headers():
-        return {
-            "Authorization": f"Bearer {st.session_state.get('token')}"
-    }
+    # 🔐 VALIDAÇÃO DE PLANO
+    r = requests.get(
+        f"{API}/check-access",
+        headers=get_headers()
+    )
 
-r = requests.get(
-    f"{API}/check-access",
-    headers=get_headers()
-)
-
-try:
-    data = r.json()
-except:
-    st.error("Erro ao conectar com API")
-    st.stop()
+    try:
+        data = r.json()
+    except:
+        st.error("Erro ao conectar com API")
+        st.stop()
 
     if not data.get("allowed"):
-         st.error("Limite do plano atingido ou trial expirado.")
-         st.stop()
+        st.error("Limite do plano atingido ou trial expirado.")
+        st.stop()
 
-    # 👇 AGORA SIM O BOTÃO
+    # 💾 SALVAR
     if st.button("💾 Salvar desenho", use_container_width=True):
+
         drawings = (out or {}).get('all_drawings') or []
 
-    if drawings:
+        if drawings:
             try:
                 geom = geojson_to_shapely(drawings[-1])
                 stats = compute_field_stats(geom)
@@ -162,7 +153,7 @@ except:
 
             except Exception as e:
                 st.error(f"Erro: {e}")
-    else:
+        else:
             st.warning("Desenhe no mapa primeiro.")
 
     st.divider()
