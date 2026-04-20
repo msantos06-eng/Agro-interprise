@@ -113,14 +113,23 @@ with col_ctrl:
     )
 
     # 🔐 VALIDAÇÃO DE PLANO (AQUI DENTRO)
-    r = requests.get(
+    def get_headers():
+    return {
+        "Authorization": f"Bearer {st.session_state.get('token')}"
+    }
+
+r = requests.get(
     f"{API}/check-access",
     headers=get_headers()
 )
 
-data = r.json()
+try:
+    data = r.json()
+except:
+    st.error("Erro ao conectar com API")
+    st.stop()
 
-    if not data.get("allowed"):
+if not data.get("allowed"):
     st.error("Limite do plano atingido ou trial expirado.")
     st.stop()
 
