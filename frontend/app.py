@@ -86,6 +86,26 @@ plano = user_data.get("plan", "free")
 
 if plano == "free":
     st.sidebar.warning("Plano FREE")
+    
+    if st.sidebar.button("Fazer Upgrade"):
+    r = requests.get(
+        f"{API}/create-payment-link",
+        headers=get_headers()
+    )
+
+    try:
+        data = r.json()
+    except:
+        st.error("Erro ao conectar com API")
+        st.stop()
+
+    st.write("RESPOSTA:", data)  # 👈 DEBUG
+
+    if "url" in data:
+        link = data["url"]
+        st.sidebar.markdown(f"[👉 Pagar agora]({link})")
+    else:
+        st.error("Erro ao gerar link de pagamento")
 
     if user_data.get("trial_end"):
         st.sidebar.caption(f"Trial até: {user_data['trial_end']}")
