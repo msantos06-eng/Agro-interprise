@@ -111,20 +111,22 @@ with col_ctrl:
         "Nome",
         value=f"Talhão {len(st.session_state.talhoes) + 1}"
     )
+
+    # 🔐 VALIDAÇÃO DE PLANO (AQUI DENTRO)
     r = requests.get(
-    f"{API}/check-access",
-    headers=get_headers()
-)
+        f"{API}/check-access",
+        headers=get_headers()
+    )
 
-if not r.json()["allowed"]:
-    st.error("Limite do plano atingido ou trial expirado.")
-    st.stop()
+    if not r.json().get("allowed"):
+        st.error("Limite do plano atingido ou trial expirado.")
+        st.stop()
 
+    # 👇 AGORA SIM O BOTÃO
     if st.button("💾 Salvar desenho", use_container_width=True):
-
         drawings = (out or {}).get('all_drawings') or []
 
-        if drawings:
+    if drawings:
             try:
                 geom = geojson_to_shapely(drawings[-1])
                 stats = compute_field_stats(geom)
@@ -148,7 +150,7 @@ if not r.json()["allowed"]:
 
             except Exception as e:
                 st.error(f"Erro: {e}")
-        else:
+    else:
             st.warning("Desenhe no mapa primeiro.")
 
     st.divider()
