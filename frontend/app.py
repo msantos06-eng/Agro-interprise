@@ -88,7 +88,7 @@ if plano == "free":
     st.sidebar.warning("Plano FREE")
     
     if st.sidebar.button("Fazer Upgrade"):
-    r = requests.get(
+        r = requests.get(
         f"{API}/create-payment-link",
         headers=get_headers()
     )
