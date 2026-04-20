@@ -12,6 +12,10 @@ r = requests.get(
     f"{API}/check-access",
     headers=get_headers()
 )
+def get_headers():
+    return {
+        "Authorization": "Bearer SEU_TOKEN_AQUI"
+    }
 from streamlit_folium import st_folium
 from shapely.geometry import mapping
 from folium.plugins import Draw, MeasureControl, LocateControl, Geocoder
