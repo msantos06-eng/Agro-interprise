@@ -123,10 +123,17 @@ if plano == "free":
 else:
     st.sidebar.success(f"Plano {plano.upper()}")
 
-# logout
+# 🔓 logout primeiro
 if st.sidebar.button("Sair"):
-    st.session_state.token = None
+    st.session_state.pop("token", None)
     st.rerun()
+
+# 🚫 bloqueio sem login
+if not st.session_state.get("token"):
+    tela_login()
+    st.stop()
+    
+    st.write("TOKEN:", st.session_state.get("token"))
 
 st.markdown("Selecione uma funcionalidade no menu lateral")
 
