@@ -4,6 +4,12 @@ import folium
 import json
 import pandas as pd
 
+import streamlit as st
+
+def get_headers():
+    return {
+        "Authorization": f"Bearer {st.session_state.get('token')}"
+    }
 API = "https://agroforce-production.up.railway.app"
 
 # ... resto do código ...
@@ -12,10 +18,8 @@ r = requests.get(
     f"{API}/check-access",
     headers=get_headers()
 )
-def get_headers():
-    return {
-        "Authorization": "Bearer SEU_TOKEN_AQUI"
-    }
+
+
 from streamlit_folium import st_folium
 from shapely.geometry import mapping
 from folium.plugins import Draw, MeasureControl, LocateControl, Geocoder
