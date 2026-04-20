@@ -130,9 +130,9 @@ except:
     st.error("Erro ao conectar com API")
     st.stop()
 
-if not data.get("allowed"):
-    st.error("Limite do plano atingido ou trial expirado.")
-    st.stop()
+    if not data.get("allowed"):
+         st.error("Limite do plano atingido ou trial expirado.")
+         st.stop()
 
     # 👇 AGORA SIM O BOTÃO
     if st.button("💾 Salvar desenho", use_container_width=True):
