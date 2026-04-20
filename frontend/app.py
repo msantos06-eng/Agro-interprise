@@ -41,17 +41,16 @@ def tela_login():
                 json={"email": email, "password": senha}
             )
 
-            if r.status_code == 200:
+            if r.status_code = 200:
                 st.session_state.token = r.json()["token"]
                 st.rerun()
             else:
                 st.error("Login inválido")
 
-    
     if st.button("Cadastrar"):
         r = requests.post(
-        f"{API}/register",
-        json={"email": email, "password": senha}
+            f"{API}/register",
+            json={"email": email, "password": senha}
     )
 
     if r.status_code == 200:
@@ -62,11 +61,12 @@ def tela_login():
         st.error("Erro ao cadastrar")
         st.write("STATUS:", r.status_code)
         st.write("RESPOSTA:", r.text)
+    
 
 # 🚫 bloqueio sem login
-if not st.session_state.token:
-    tela_login()
-    st.stop()
+    if not st.session_state.get("token"):
+         tela_login()
+         st.stop()
 
 # 📊 dados usuário
 @st.cache_data(ttl=30)
