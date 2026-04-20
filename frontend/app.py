@@ -48,18 +48,24 @@ def tela_login():
                 st.error("Login inválido")
 
     else:
-        if st.button("Cadastrar"):
-            r = requests.post(
-                f"{API}/register",
-                json={"email": email, "password": senha}
-            )
+    if st.button("Cadastrar"):
+        r = requests.post(
+            f"{API}/register",
+            json={"email": email, "password": senha}
+        )
 
-            if r.status_code == 200:
-                st.session_state.token = r.json()["token"]
-                st.success("Conta criada!")
-                st.rerun()
-            else:
-                st.error("Erro ao cadastrar")
+        if r.status_code == 200:
+            st.session_state.token = r.json()["token"]
+            st.success("Conta criada!")
+            st.rerun()
+        else:
+            st.error("Erro ao cadastrar")
+            st.write("STATUS:", r.status_code)
+            st.write("RESPOSTA:", r.text)
+    else:
+        st.error("Erro ao cadastrar")
+        st.write("STATUS:", r.status_code)
+        st.write("RESPOSTA:", r.text)
 
 # 🚫 bloqueio sem login
 if not st.session_state.token:
