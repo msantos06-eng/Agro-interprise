@@ -117,10 +117,12 @@ with col_ctrl:
         f"{API}/check-access",
         headers=get_headers()
     )
+st.write(r.status_code, r.json())
+  data = r.json()
 
-    if not r.json().get("allowed"):
-        st.error("Limite do plano atingido ou trial expirado.")
-        st.stop()
+    if not data.get("allowed"):
+    st.error("Limite do plano atingido ou trial expirado.")
+    st.stop()
 
     # 👇 AGORA SIM O BOTÃO
     if st.button("💾 Salvar desenho", use_container_width=True):
