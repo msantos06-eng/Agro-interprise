@@ -41,7 +41,7 @@ def tela_login():
                 json={"email": email, "password": senha}
             )
 
-            if r.status_code = 200:
+            if r.status_code == 200:
                 st.session_state.token = r.json()["token"]
                 st.rerun()
             else:
