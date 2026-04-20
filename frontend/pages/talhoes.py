@@ -115,8 +115,8 @@ with col_ctrl:
 
     # 🔐 VALIDAÇÃO DE PLANO (AQUI DENTRO)
     def get_headers():
-    return {
-        "Authorization": f"Bearer {st.session_state.get('token')}"
+        return {
+            "Authorization": f"Bearer {st.session_state.get('token')}"
     }
 
 r = requests.get(
