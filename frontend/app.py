@@ -145,9 +145,9 @@ st.markdown("Selecione uma funcionalidade no menu lateral")
 def talhao_ativo():
     t = st.session_state.get("talhoes", [])
     i = st.session_state.get("idx_ativo", 0)
-if t and 0 <= i < len(t):
+    if t and 0 <= i < len(t):
         return t[i]
-return None
+    return None
 
 def status_plano():
     import datetime
@@ -158,8 +158,8 @@ if user_data["plan"] == "free":
 if user_data["expires_at"] is None:
         return "ativo"
 if datetime.datetime.utcnow().isoformat() > user_data["expires_at"]:
-        return "expirado"
-        return "ativo"
+    return "expirado"
+return "ativo"
 
 # ── Tabs ─────────────────────────────────────────────
 tabs = st.tabs([
