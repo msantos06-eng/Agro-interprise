@@ -41,7 +41,7 @@ def tela_login():
             f"{API}/login",
             json={"email": email, "password": senha}
         )
-
+st.write("R:", r)
         if r.status_code == 200:
             st.session_state.token = r.json()["token"]
             st.success("Login realizado!")
