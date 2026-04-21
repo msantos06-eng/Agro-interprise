@@ -159,12 +159,7 @@ if user_data["expires_at"] is None:
         return "ativo"
 if datetime.datetime.utcnow().isoformat() > user_data["expires_at"]:
         return "expirado"
-
-      return "ativo"
-    # 🚫 bloqueio sem login
-if not st.session_state.get("token"):
-         tela_login()
-         st.stop()
+        return "ativo"
 
 # ── Tabs ─────────────────────────────────────────────
 tabs = st.tabs([
