@@ -122,8 +122,8 @@ if st.sidebar.button("🚀 Fazer Upgrade"):
 if "url" in data:
             link = data["url"]
             st.sidebar.markdown(f"[👉 Pagar agora]({link})")
-        else:
-            st.error("Erro ao gerar link de pagamento")
+else:
+    st.error("Erro ao gerar link de pagamento")
 
 else:
     st.sidebar.success(f"Plano {plano.upper()}")
