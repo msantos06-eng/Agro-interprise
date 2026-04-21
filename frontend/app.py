@@ -65,10 +65,10 @@ def tela_login():
                     st.session_state.token = r.json()["token"]
                     st.success("Conta criada!")
                     st.rerun()
-                else:
-                    st.error("Erro ao cadastrar")
-                    st.write("STATUS:", r.status_code)
-                    st.write("RESPOSTA:", r.text)
+                    else:
+                         st.error("Erro ao cadastrar")
+                         st.write("STATUS:", r.status_code)
+                         st.write("RESPOSTA:", r.text)
 
             except Exception as e:
                 st.error(f"Erro: {e}")
