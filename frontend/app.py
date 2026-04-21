@@ -104,7 +104,7 @@ except:
        pass
 
     # 🚀 BOTÃO DE UPGRADE (AQUI É O CERTO)
-    if st.sidebar.button("🚀 Fazer Upgrade"):
+if st.sidebar.button("🚀 Fazer Upgrade"):
         r = requests.get(
             f"{API}/create-payment-link",
             headers=get_headers()
@@ -119,7 +119,7 @@ except:
             st.error("Erro ao converter resposta da API")
             st.stop()
 
-        if "url" in data:
+if "url" in data:
             link = data["url"]
             st.sidebar.markdown(f"[👉 Pagar agora]({link})")
         else:
@@ -153,18 +153,17 @@ if t and 0 <= i < len(t):
 def status_plano():
     import datetime
 
-    if user_data["plan"] == "free":
+if user_data["plan"] == "free":
         return "free"
 
-    if user_data["expires_at"] is None:
+if user_data["expires_at"] is None:
         return "ativo"
-
-    if datetime.datetime.utcnow().isoformat() > user_data["expires_at"]:
+if datetime.datetime.utcnow().isoformat() > user_data["expires_at"]:
         return "expirado"
 
-    return "ativo"
+      return "ativo"
     # 🚫 bloqueio sem login
-    if not st.session_state.get("token"):
+if not st.session_state.get("token"):
          tela_login()
          st.stop()
 
