@@ -15,6 +15,11 @@ API = "https://agroforce-production.up.railway.app"
 
 st.write("API REAL:", API)
 
+# 🚫 bloqueio sem login
+if not st.session_state.get("token"):
+    tela_login()
+    st.stop()
+
 # 🔐 sessão
 if "token" not in st.session_state:
     st.session_state.token = None
@@ -132,12 +137,6 @@ else:
 if st.sidebar.button("Sair"):
     st.session_state.pop("token", None)
     st.rerun()
-
-# 🚫 bloqueio sem login
-if not st.session_state.get("token"):
-    tela_login()
-    st.stop()
-    
     st.write("TOKEN:", st.session_state.get("token"))
 
 st.markdown("Selecione uma funcionalidade no menu lateral")
@@ -148,7 +147,7 @@ def talhao_ativo():
     i = st.session_state.get("idx_ativo", 0)
 if t and 0 <= i < len(t):
         return t[i]
-    return None
+return None
 
 def status_plano():
     import datetime
