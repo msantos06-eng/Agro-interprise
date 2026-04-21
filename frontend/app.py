@@ -50,7 +50,7 @@ if st.button("Entrar"):
             st.error("Email ou senha inválidos")
 
     except Exception as e:
-        st.error(f"Erro: {e}")
+            st.error(f"Erro: {e}")
         
     if st.button("Cadastrar"):
         r = requests.post(
@@ -92,16 +92,16 @@ plano = user_data.get("plan", "free")
 if plano == "free":
     st.sidebar.warning("Plano FREE")
 
-    if user_data.get("trial_end"):
+if user_data.get("trial_end"):
         st.sidebar.caption(f"Trial até: {user_data['trial_end']}")
 
     # contador de uso
-    try:
-        farms = requests.get(f"{API}/farms", headers=get_headers()).json()
-        st.sidebar.caption(f"{len(farms)}/3 talhões usados")
-        st.sidebar.progress(min(len(farms) / 3, 1.0))
-    except:
-        pass
+try:
+    farms = requests.get(f"{API}/farms", headers=get_headers()).json()
+    st.sidebar.caption(f"{len(farms)}/3 talhões usados")
+    st.sidebar.progress(min(len(farms) / 3, 1.0))
+except:
+       pass
 
     # 🚀 BOTÃO DE UPGRADE (AQUI É O CERTO)
     if st.sidebar.button("🚀 Fazer Upgrade"):
@@ -146,7 +146,7 @@ st.markdown("Selecione uma funcionalidade no menu lateral")
 def talhao_ativo():
     t = st.session_state.get("talhoes", [])
     i = st.session_state.get("idx_ativo", 0)
-    if t and 0 <= i < len(t):
+if t and 0 <= i < len(t):
         return t[i]
     return None
 
