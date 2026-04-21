@@ -35,13 +35,13 @@ def tela_login():
     senha = st.text_input("Senha", type="password")
 
     if aba == "Login":
-        if st.button("Entrar"):
+if st.button("Entrar"):
     try:
         r = requests.post(
             f"{API}/login",
             json={"email": email, "password": senha}
         )
-st.write("R:", r)
+           st.write("R:", r)
         if r.status_code == 200:
             st.session_state.token = r.json()["token"]
             st.success("Login realizado!")
