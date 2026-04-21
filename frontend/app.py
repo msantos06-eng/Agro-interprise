@@ -25,7 +25,6 @@ def get_headers():
         "Authorization": f"Bearer {st.session_state.token}"
     }
 
-# 🔐 login + cadastro
 def tela_login():
     st.title("AgroForce")
 
@@ -34,44 +33,45 @@ def tela_login():
     email = st.text_input("Email")
     senha = st.text_input("Senha", type="password")
 
+    # 🔐 LOGIN
     if aba == "Login":
-if st.button("Entrar"):
-    try:
-        r = requests.post(
-            f"{API}/login",
-            json={"email": email, "password": senha}
-        )
-           st.write("R:", r)
-        if r.status_code == 200:
-            st.session_state.token = r.json()["token"]
-            st.success("Login realizado!")
-            st.rerun()
-        else:
-            st.error("Email ou senha inválidos")
+        if st.button("Entrar"):
+            try:
+                r = requests.post(
+                    f"{API}/login",
+                    json={"email": email, "password": senha}
+                )
 
-    except Exception as e:
-            st.error(f"Erro: {e}")
-        
-    if st.button("Cadastrar"):
-        r = requests.post(
-            f"{API}/register",
-            json={"email": email, "password": senha}
-        )
+                if r.status_code == 200:
+                    st.session_state.token = r.json()["token"]
+                    st.success("Login realizado!")
+                    st.rerun()
+                else:
+                    st.error("Login inválido")
 
-    if r.status_code == 200:
-        st.session_state.token = r.json()["token"]
-        st.success("Login realizado!")
-        st.rerun()
-    else:
-        st.error("Erro ao cadastrar")
-        st.write("STATUS:", r.status_code)
-        st.write("RESPOSTA:", r.text)
-    
+            except Exception as e:
+                st.error(f"Erro: {e}")
 
-# 🚫 bloqueio sem login
-    if not st.session_state.get("token"):
-         tela_login()
-         st.stop()
+    # 🆕 CADASTRO
+    if aba == "Cadastro":
+        if st.button("Cadastrar"):
+            try:
+                r = requests.post(
+                    f"{API}/register",
+                    json={"email": email, "password": senha}
+                )
+
+                if r.status_code == 200:
+                    st.session_state.token = r.json()["token"]
+                    st.success("Conta criada!")
+                    st.rerun()
+                else:
+                    st.error("Erro ao cadastrar")
+                    st.write("STATUS:", r.status_code)
+                    st.write("RESPOSTA:", r.text)
+
+            except Exception as e:
+                st.error(f"Erro: {e}")
 
 # 📊 dados usuário
 @st.cache_data(ttl=30)
@@ -163,6 +163,10 @@ def status_plano():
         return "expirado"
 
     return "ativo"
+    # 🚫 bloqueio sem login
+    if not st.session_state.get("token"):
+         tela_login()
+         st.stop()
 
 # ── Tabs ─────────────────────────────────────────────
 tabs = st.tabs([
