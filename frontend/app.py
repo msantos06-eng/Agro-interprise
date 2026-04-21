@@ -36,17 +36,22 @@ def tela_login():
 
     if aba == "Login":
         if st.button("Entrar"):
-            r = requests.post(
-                f"{API}/login",
-                json={"email": email, "password": senha}
-            )
+    try:
+        r = requests.post(
+            f"{API}/login",
+            json={"email": email, "password": senha}
+        )
 
-            if r.status_code == 200:
-                st.session_state.token = r.json()["token"]
-                st.rerun()
-            else:
-                st.error("Login inválido")
+        if r.status_code == 200:
+            st.session_state.token = r.json()["token"]
+            st.success("Login realizado!")
+            st.rerun()
+        else:
+            st.error("Email ou senha inválidos")
 
+    except Exception as e:
+        st.error(f"Erro: {e}")
+        
     if st.button("Cadastrar"):
         r = requests.post(
             f"{API}/register",
@@ -55,7 +60,7 @@ def tela_login():
 
     if r.status_code == 200:
         st.session_state.token = r.json()["token"]
-        st.success("Conta criada!")
+        st.success("Login realizado!")
         st.rerun()
     else:
         st.error("Erro ao cadastrar")
