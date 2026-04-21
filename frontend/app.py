@@ -105,7 +105,8 @@ except:
        pass
 
     # 🚀 BOTÃO DE UPGRADE (AQUI É O CERTO)
-if st.sidebar.button("🚀 Fazer Upgrade"):
+if plano == "free":
+    if st.sidebar.button("🚀 Fazer Upgrade"):
         r = requests.get(
             f"{API}/create-payment-link",
             headers=get_headers()
@@ -120,14 +121,13 @@ if st.sidebar.button("🚀 Fazer Upgrade"):
             st.error("Erro ao converter resposta da API")
             st.stop()
 
-if "url" in data:
+        if "url" in data:
             link = data["url"]
-            st.sidebar.markdown(f"[👉 Pagar agora]({link})")
-else:
-    st.error("Erro ao gerar link de pagamento")
+            st.sidebar.markdown(f"[💳 Pagar agora]({link})")
         else:
-            st.sidebar.success(f"Plano {plano.upper()}")
-
+            st.error("Erro ao gerar link de pagamento")
+else:
+    st.sidebar.success(f"Plano {plano.upper()}")
 # 🔓 logout primeiro
 if st.sidebar.button("Sair"):
     st.session_state.pop("token", None)
