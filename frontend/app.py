@@ -125,8 +125,8 @@ if "url" in data:
             st.sidebar.markdown(f"[👉 Pagar agora]({link})")
 else:
     st.error("Erro ao gerar link de pagamento")
-else:
-    st.sidebar.success(f"Plano {plano.upper()}")
+        else:
+            st.sidebar.success(f"Plano {plano.upper()}")
 
 # 🔓 logout primeiro
 if st.sidebar.button("Sair"):
