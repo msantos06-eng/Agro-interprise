@@ -161,8 +161,8 @@ def verificar_plano(plano):
 if user_data["expires_at"] is None:
         status = "ativo"
 if datetime.datetime.utcnow().isoformat() > user_data["expires_at"]:
-    return "expirado"
-return "ativo"
+    status = "expirado"
+status = "ativo"
 
 # ── Tabs ─────────────────────────────────────────────
 tabs = st.tabs([
