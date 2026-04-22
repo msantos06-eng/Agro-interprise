@@ -152,8 +152,11 @@ def talhao_ativo():
 def status_plano():
     import datetime
 
-if user_data["plan"] == "free":
+def verificar_plano(plano):
+    if plano == "free":
         return "free"
+    else:
+        return "ativo"
 
 if user_data["expires_at"] is None:
         return "ativo"
