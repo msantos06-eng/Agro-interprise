@@ -16,6 +16,10 @@ API = "https://agroforce-production.up.railway.app"
 st.write("API REAL:", API)
 
 # 🚫 bloqueio sem login
+def tela_login():
+    import streamlit as st
+    st.write("Tela de Login")
+
 if not st.session_state.get("token"):
     tela_login()
     st.stop()
