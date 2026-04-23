@@ -8,6 +8,9 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import streamlit as st
+import os
+st.write("Arquivos:", os.listdir())
+st.write("Pages:", os.listdir("pages"))
 st.write("VERSION TEST 123")
 
 # 🔗 API (OBRIGATÓRIO PRIMEIRO)
