@@ -8,21 +8,16 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import streamlit as st
-import os
-st.write("Arquivos:", os.listdir())
-st.write("Pages:", os.listdir("pages"))
-st.write("VERSION TEST 123")
 
 # 🔗 API (OBRIGATÓRIO PRIMEIRO)
 API = "https://agroforce-production.up.railway.app"
 
 st.write("API REAL:", API)
 
-from pages.login import tela_login
 # 🚫 bloqueio sem login
 def tela_login():
     import streamlit as st
-    st.write("Tela de Login")
+    st.write("Login")
 
 if not st.session_state.get("token"):
     tela_login()
