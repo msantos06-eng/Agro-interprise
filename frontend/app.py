@@ -1,37 +1,29 @@
 import streamlit as st
-import sys
 import os
-import json
 import requests
-import json
 import numpy as np
 import pandas as pd
-import streamlit as st
-import streamlit as st
-import streamlit as st
-import os
 
+# debug (pode remover depois)
 st.write("Arquivos:", os.listdir())
 
-def tela_login():
-    st.title("Login")
-    
-def tela_login():
-    import streamlit as st
-    st.write("Login")
-# 🔗 API (OBRIGATÓRIO PRIMEIRO)
+# 🔗 API
 API = "https://agroforce-production.up.railway.app"
-
 st.write("API REAL:", API)
 
+# 🔐 sessão (TEM QUE VIR ANTES)
+if "token" not in st.session_state:
+    st.session_state.token = None
 
+# 📺 tela de login
+def tela_login():
+    st.title("Login")
+    st.write("Faça login para continuar")
+
+# 🚫 bloqueio sem login
 if not st.session_state.get("token"):
     tela_login()
     st.stop()
-
-# 🔐 sessão
-if "token" not in st.session_state:
-    st.session_state.token = None
 
 # 🔐 headers
 def get_headers():
