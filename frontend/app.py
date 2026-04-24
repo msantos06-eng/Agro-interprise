@@ -3,7 +3,25 @@ import os
 import requests
 import numpy as np
 import pandas as pd
+import streamlit as st
 
+def tela_login():
+    st.title("Login")
+
+    if st.button("Entrar"):
+        st.session_state["token"] = "ok"
+
+
+def dashboard():
+    st.title("Dashboard")
+
+
+# 🔥 CONTROLE CENTRAL
+if not st.session_state.get("token"):
+    tela_login()
+else:
+    dashboard()
+    
 # debug (pode remover depois)
 st.write("Arquivos:", os.listdir())
 
