@@ -190,11 +190,7 @@ else:
         status = "expirado"
     else:
         status = "ativo"
-if user_data["expires_at"] is None:
-        status = "ativo"
-if datetime.datetime.utcnow().isoformat() > user_data["expires_at"]:
-    status = "expirado"
-status = "ativo"
+
 
 # ── Tabs ─────────────────────────────────────────────
 tabs = st.tabs([
