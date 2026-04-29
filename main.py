@@ -6,6 +6,7 @@ from auth.jwt_handler import create_token, verify_token
 from rules import pode_criar_talhao
 
 app = FastAPI()
+
 @app.get("/ping")
 def ping():
     return {"status": "ok"}
