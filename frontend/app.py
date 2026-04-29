@@ -55,6 +55,8 @@ def tela_login():
                 st.rerun()
             else:
                 st.error("Erro ao cadastrar")
+                st.write("STATUS:", r.status_code)
+                st.write("RESPOSTA:", r.text)
 
 
 # 📊 DASHBOARD
