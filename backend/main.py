@@ -5,6 +5,7 @@ from models.user import User
 from models.farm import Farm
 from auth.jwt_handler import create_token, verify_token
 from rules import pode_criar_talhao
+from db import Base
 
 app = FastAPI()
 
