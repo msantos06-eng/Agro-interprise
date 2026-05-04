@@ -14,4 +14,5 @@ folium
 pyproj
 pyshp
 matplotlib
-PyJWT
+pip install -r requirements.txt
+
