@@ -16,5 +16,6 @@ pyshp
 matplotlib
 PyJWT
 python-dotenv
+passlib
 
 
