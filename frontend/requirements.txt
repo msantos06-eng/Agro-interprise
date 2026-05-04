@@ -14,5 +14,22 @@ folium
 pyproj
 pyshp
 matplotlib
-pip install -r requirements.txt
+streamlit
+streamlit-folium
+shapely
+numpy
+pandas
+geopandas
+sqlalchemy
+fastapi
+uvicorn
+psycopg2-binary
+requests
+Pillow
+folium
+pyproj
+pyshp
+matplotlib
+PyJWT
+
 
