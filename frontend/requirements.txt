@@ -16,6 +16,8 @@ pyshp
 matplotlib
 PyJWT
 python-dotenv
-passlib
+passlib[bcrypt]
+bcrypt
+
 
 
