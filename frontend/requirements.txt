@@ -4,20 +4,14 @@ shapely
 numpy
 pandas
 geopandas
-sqlalchemy
-fastapi
-uvicorn
-psycopg2-binary
 requests
 Pillow
 folium
 pyproj
 pyshp
 matplotlib
-PyJWT
 python-dotenv
-passlib[bcrypt]
-bcrypt
+
 
 
 
