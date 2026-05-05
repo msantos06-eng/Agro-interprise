@@ -11,7 +11,7 @@ pyproj
 pyshp
 matplotlib
 python-dotenv
-alembic
+
 
 
 
