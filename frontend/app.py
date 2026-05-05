@@ -5,7 +5,8 @@ import requests
 st.set_page_config(page_title="AgroForce", layout="wide", page_icon="🌾")
 
 # 🔗 API
-API = "https://agroforce-production.up.railway.app"
+API = "https://agro-interprise-production.up.railway.app"
+
 
 # 🔐 SESSION INIT
 if "token" not in st.session_state:
