@@ -7,6 +7,11 @@ from shapely.geometry import mapping
 from utils.geo_utils import generate_buffer
 from utils.export_utils import export_geojson
 
+# 🔐 VERIFICAÇÃO DE LOGIN
+if "token" not in st.session_state or not st.session_state.token:
+    st.error("Você precisa fazer login para acessar esta página.")
+    st.stop()
+
 
 def talhao_ativo():
     return st.session_state.get("talhao")
