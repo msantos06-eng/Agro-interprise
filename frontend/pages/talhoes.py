@@ -3,37 +3,32 @@ import requests
 import folium
 import json
 import pandas as pd
+from streamlit_folium import st_folium
+from shapely.geometry import mapping
+from folium.plugins import Draw, MeasureControl, LocateControl, Geocoder
+from utils.geo_utils import geojson_to_shapely, compute_field_stats
 
-import streamlit as st
+# 🔐 VERIFICAÇÃO DE LOGIN
+if "token" not in st.session_state or not st.session_state.token:
+    st.error("Você precisa fazer login para acessar esta página.")
+    st.stop()
 
-st.write("APP RODANDO")
+# 🔗 API
+API = "https://agro-interprise-production.up.railway.app"
+
 def get_headers():
     return {
         "Authorization": f"Bearer {st.session_state.get('token')}"
     }
-API = "https://agroforce-production.up.railway.app"
-
-# ... resto do código ...
-
-
-from streamlit_folium import st_folium
-from shapely.geometry import mapping
-from folium.plugins import Draw, MeasureControl, LocateControl, Geocoder
-
-from utils.geo_utils import geojson_to_shapely, compute_field_stats
-
 
 # ---------------- ESTADO ----------------
 if "talhoes" not in st.session_state:
     st.session_state.talhoes = []
     st.session_state.idx_ativo = 0
 
-
 st.header("🗺️ Gerenciar Talhões")
 
-
 col_map, col_ctrl = st.columns([3, 1])
-
 
 # ================= MAPA =================
 with col_map:
@@ -64,7 +59,6 @@ with col_map:
     LocateControl().add_to(m)
     Geocoder(position='topright').add_to(m)
 
-    # mostrar talhões
     cores = ['#27ae60', '#2980b9', '#e67e22', '#8e44ad']
 
     for i, t in enumerate(st.session_state.talhoes):
@@ -97,7 +91,6 @@ with col_map:
 
     out = st_folium(m, width=800, height=550)
 
-
 # ================= CONTROLE =================
 with col_ctrl:
 
@@ -109,15 +102,14 @@ with col_ctrl:
     )
 
     # 🔐 VALIDAÇÃO DE PLANO
-    r = requests.get(
-        f"{API}/check-access",
-        headers=get_headers()
-    )
-
     try:
+        r = requests.get(
+            f"{API}/check-access",
+            headers=get_headers()
+        )
         data = r.json()
-    except:
-        st.error("Erro ao conectar com API")
+    except Exception as e:
+        st.error(f"Erro ao conectar com API: {e}")
         st.stop()
 
     if not data.get("allowed"):
@@ -164,7 +156,6 @@ with col_ctrl:
     if uploaded:
         try:
             data = json.load(uploaded)
-
             features = data.get('features', [data])
 
             for f in features:
