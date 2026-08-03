@@ -7,6 +7,11 @@ from streamlit_folium import st_folium
 from utils.geo_utils import generate_planting_lines
 from utils.export_utils import export_geojson
 
+# 🔐 VERIFICAÇÃO DE LOGIN
+if "token" not in st.session_state or not st.session_state.token:
+    st.error("Você precisa fazer login para acessar esta página.")
+    st.stop()
+
 # =========================
 # UI
 # =========================
@@ -21,7 +26,6 @@ uploaded_file = st.file_uploader("📂 Envie o GeoJSON do talhão", type=["geojs
 if uploaded_file:
     data = json.load(uploaded_file)
 
-    # pegar primeira geometria
     geom = shape(data["features"][0]["geometry"])
 
     st.success("Talhão carregado!")
@@ -61,7 +65,6 @@ if uploaded_file:
         features = [{"geometry": l} for l in lines]
         geojson_data = export_geojson(features)
 
-        # ✅ BOTÃO TEM QUE FICAR AQUI DENTRO
         st.download_button(
             "📥 Baixar Linhas (GeoJSON)",
             json.dumps(geojson_data, indent=2),
