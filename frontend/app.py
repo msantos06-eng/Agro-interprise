@@ -20,9 +20,7 @@ def get_headers():
 # 📺 LOGIN / CADASTRO
 def tela_login():
     st.title("🌾 AgroForce")
-
     aba = st.radio("Escolha", ["Login", "Cadastro"])
-
     email = st.text_input("Email")
     senha = st.text_input("Senha", type="password")
 
@@ -54,24 +52,24 @@ def tela_login():
                 st.write("STATUS:", r.status_code)
                 st.write("RESPOSTA:", r.text)
 
+# 📊 dados usuário
+def get_user_data():
+    try:
+        r = requests.get(f"{API}/me", headers=get_headers())
+        if r.status_code == 200:
+            return r.json()
+        else:
+            st.error(f"Erro ao carregar usuário: {r.status_code}")
+            st.session_state.token = None
+            st.rerun()
+    except Exception as e:
+        st.error(f"Erro de conexão: {e}")
+        st.session_state.token = None
+        st.rerun()
+
 # 📊 DASHBOARD
 def dashboard():
     st.title("Dashboard")
-
-    # 📊 dados usuário
-    def get_user_data():
-        try:
-            r = requests.get(f"{API}/me", headers=get_headers())
-            if r.status_code == 200:
-                return r.json()
-            else:
-                st.error(f"Erro ao carregar usuário: {r.status_code}")
-                st.session_state.token = None
-                st.rerun()
-        except Exception as e:
-            st.error(f"Erro de conexão: {e}")
-            st.session_state.token = None
-            st.rerun()
 
     user_data = get_user_data()
     if not user_data:
@@ -79,9 +77,7 @@ def dashboard():
 
     # 📊 SIDEBAR
     st.sidebar.title("Conta")
-
     plano = user_data.get("plan", "free")
-
     if plano == "free":
         st.sidebar.warning("Plano FREE")
     else:
@@ -106,7 +102,41 @@ def dashboard():
         st.session_state.token = None
         st.rerun()
 
-    st.markdown("Selecione uma funcionalidade no menu lateral")
+    st.markdown("Selecione uma funcionalidade abaixo")
+
+    # ── Tabs (só aparecem após login/cadastro) ─────────────────
+    tabs = st.tabs([
+        "🗺️ Talhões",
+        "🔵 Buffer",
+        "📊 NDVI / Grade",
+        "🎯 Taxa Variável",
+        "🌾 Proj. de Linha",
+        "📤 Exportar",
+    ])
+
+    with tabs[0]:
+        st.subheader("🗺️ Talhões")
+        st.info("Em construção")
+
+    with tabs[1]:
+        st.subheader("🔵 Buffer")
+        st.info("Em construção")
+
+    with tabs[2]:
+        st.subheader("📊 NDVI / Grade")
+        st.info("Em construção")
+
+    with tabs[3]:
+        st.subheader("🎯 Taxa Variável")
+        st.info("Em construção")
+
+    with tabs[4]:
+        st.subheader("🌾 Projeção de Linha")
+        st.info("Em construção")
+
+    with tabs[5]:
+        st.subheader("📤 Exportar")
+        st.info("Em construção")
 
 # 🔥 CONTROLE CENTRAL
 if not st.session_state.token:
@@ -114,13 +144,3 @@ if not st.session_state.token:
     st.stop()
 
 dashboard()
-
-# ── Tabs ─────────────────────────────────────────────
-tabs = st.tabs([
-    "🗺️ Talhões",
-    "🔵 Buffer",
-    "📊 NDVI / Grade",
-    "🎯 Taxa Variável",
-    "🌾 Proj. de Linha",
-    "📤 Exportar",
-])
