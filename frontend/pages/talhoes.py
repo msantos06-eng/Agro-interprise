@@ -10,8 +10,7 @@ from utils.geo_utils import geojson_to_shapely, compute_field_stats
 
 # 🔐 VERIFICAÇÃO DE LOGIN
 if "token" not in st.session_state or not st.session_state.token:
-    st.error("Você precisa fazer login para acessar esta página.")
-    st.stop()
+    st.switch_page("app.py")
 
 # 🔗 API
 API = "https://agro-interprise-production.up.railway.app"
