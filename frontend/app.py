@@ -1,8 +1,18 @@
+import base64
 import streamlit as st
 import requests
 
+
+def _logo_base64():
+    with open("assets/logo.png", "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
 # ⚙️ CONFIG (SEMPRE PRIMEIRO)
-st.set_page_config(page_title="AgroForce", layout="wide", page_icon="🌾")
+st.set_page_config(
+    page_title="ConexCrop",
+    layout="wide",
+    page_icon="assets/logo.png",  # ícone da aba do navegador
+)
 
 # 🔗 API
 API = "https://agro-interprise-production.up.railway.app"
@@ -11,19 +21,34 @@ API = "https://agro-interprise-production.up.railway.app"
 if "token" not in st.session_state:
     st.session_state.token = None
 
+
 # 🔐 HEADERS
 def get_headers():
     return {
         "Authorization": f"Bearer {st.session_state.token}"
     }
 
+
+# 🖼️ CABEÇALHO COM LOGO (colada ao nome, mesma linha)
+def header():
+    logo_b64 = _logo_base64()
+    st.markdown(
+        f"""
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:0.5rem;">
+            <img src="data:image/png;base64,{logo_b64}" style="height:48px;">
+            <span style="font-size:2.2rem; font-weight:700; line-height:1;">ConexCrop</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 # 📺 LOGIN / CADASTRO
 def tela_login():
-    st.title(" ConexCrop")
+    header()
     aba = st.radio("Escolha", ["Login", "Cadastro"])
     email = st.text_input("Email")
     senha = st.text_input("Senha", type="password")
-
     if aba == "Login":
         if st.button("Entrar"):
             r = requests.post(
@@ -36,7 +61,6 @@ def tela_login():
                 st.rerun()
             else:
                 st.error("Login inválido")
-
     if aba == "Cadastro":
         if st.button("Cadastrar"):
             r = requests.post(
@@ -51,6 +75,7 @@ def tela_login():
                 st.error("Erro ao cadastrar")
                 st.write("STATUS:", r.status_code)
                 st.write("RESPOSTA:", r.text)
+
 
 # 📊 dados usuário
 def get_user_data():
@@ -67,15 +92,17 @@ def get_user_data():
         st.session_state.token = None
         st.rerun()
 
+
 # 📊 DASHBOARD
 def dashboard():
-    st.title("Dashboard")
+    header()
 
     user_data = get_user_data()
     if not user_data:
         st.stop()
 
     # 📊 SIDEBAR
+    st.sidebar.image("assets/logo.png", width=80)
     st.sidebar.title("Conta")
     plano = user_data.get("plan", "free")
     if plano == "free":
@@ -137,6 +164,7 @@ def dashboard():
     with tabs[5]:
         st.subheader("📤 Exportar")
         st.info("Em construção")
+
 
 # 🔥 CONTROLE CENTRAL
 if not st.session_state.token:
