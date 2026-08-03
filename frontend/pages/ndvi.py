@@ -6,8 +6,7 @@ from utils.ndvi import generate_grid, add_ndvi_to_cells
 
 # 🔐 VERIFICAÇÃO DE LOGIN
 if "token" not in st.session_state or not st.session_state.token:
-    st.error("Você precisa fazer login para acessar esta página.")
-    st.stop()
+    st.switch_page("app.py")
 
 # ================= STATE =================
 def talhao_ativo():
