@@ -19,7 +19,7 @@ def get_headers():
 
 # 📺 LOGIN / CADASTRO
 def tela_login():
-    st.title("🌾 AgroForce")
+    st.title(" ConexCrop")
     aba = st.radio("Escolha", ["Login", "Cadastro"])
     email = st.text_input("Email")
     senha = st.text_input("Senha", type="password")
