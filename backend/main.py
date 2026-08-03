@@ -12,20 +12,14 @@ from rules import pode_criar_talhao
 
 app = FastAPI(title="Agro-interprise API", version="1.0.0")
 
-# ─────────────────────────────────────────
-# CORS (ajuste as origens conforme necessário)
-# ─────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Em produção, substitua por domínios específicos
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ─────────────────────────────────────────
-# HASH DE SENHA
-# ─────────────────────────────────────────
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
@@ -37,9 +31,6 @@ def verify_password(plain: str, hashed: str) -> bool:
     return pwd_context.verify(plain, hashed)
 
 
-# ─────────────────────────────────────────
-# SCHEMAS PYDANTIC (validação de entrada)
-# ─────────────────────────────────────────
 class AuthSchema(BaseModel):
     email: EmailStr
     password: str
@@ -49,9 +40,6 @@ class FarmSchema(BaseModel):
     name: str
 
 
-# ─────────────────────────────────────────
-# DEPENDÊNCIAS
-# ─────────────────────────────────────────
 def get_db():
     db = SessionLocal()
     try:
@@ -77,22 +65,15 @@ def get_current_user(authorization: str = Header(...), db: Session = Depends(get
     return user
 
 
-# ─────────────────────────────────────────
-# HEALTHCHECK
-# ─────────────────────────────────────────
 @app.get("/ping", tags=["Health"])
 def ping():
     return {"status": "ok"}
 
 
-# ─────────────────────────────────────────
-# AUTENTICAÇÃO
-# ─────────────────────────────────────────
 @app.post("/login", tags=["Auth"])
 def login(data: AuthSchema, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == data.email).first()
 
-    # Verifica usuário e senha com hash — sem vazar qual dos dois falhou
     if not user or not verify_password(data.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
 
@@ -108,7 +89,7 @@ def register(data: AuthSchema, db: Session = Depends(get_db)):
 
     user = User(
         email=data.email,
-        hashed_password=hash_password(data.password),  # ✅ Senha hasheada com bcrypt
+        hashed_password=hash_password(data.password),
     )
     db.add(user)
     db.commit()
@@ -118,9 +99,6 @@ def register(data: AuthSchema, db: Session = Depends(get_db)):
     return {"token": token}
 
 
-# ─────────────────────────────────────────
-# USUÁRIO
-# ─────────────────────────────────────────
 @app.get("/me", tags=["User"])
 def get_me(user: User = Depends(get_current_user)):
     return {
@@ -132,9 +110,6 @@ def get_me(user: User = Depends(get_current_user)):
     }
 
 
-# ─────────────────────────────────────────
-# FAZENDAS
-# ─────────────────────────────────────────
 @app.get("/farms", tags=["Farms"])
 def get_farms(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     farms = db.query(Farm).filter(Farm.user_id == user.id).all()
@@ -143,7 +118,7 @@ def get_farms(user: User = Depends(get_current_user), db: Session = Depends(get_
 
 @app.post("/farms", tags=["Farms"])
 def create_farm(
-    data: FarmSchema,  # ✅ Nome vem do body agora, não da query string
+    data: FarmSchema,
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
@@ -155,3 +130,11 @@ def create_farm(
     db.commit()
     db.refresh(farm)
     return {"id": farm.id, "name": farm.name}
+
+
+# ─────────────────────────────────────────
+# INICIALIZAÇÃO
+# ─────────────────────────────────────────
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
