@@ -1153,22 +1153,26 @@ def dashboard():
 # As páginas de funcionalidades só existem na lista (e portanto só aparecem
 # no menu lateral) quando o usuário está logado.
 page_login = st.Page(tela_login, title="Login", icon="🔐")
-page_dashboard = st.Page(dashboard, title="Início", icon="🏠", default=True)
+page_inicio = st.Page(dashboard, title="Início", icon="🏠", default=True)
+page_projetos = st.Page("pages/projetos.py", title="Projetos", icon="📁")
+page_dashboard_file = st.Page("pages/dashboard.py", title="Dashboard", icon="📈")
 page_talhoes = st.Page("pages/talhoes.py", title="Talhões", icon="🗺️")
 page_buffer = st.Page("pages/buffer.py", title="Buffer", icon="🔵")
 page_ndvi = st.Page("pages/ndvi.py", title="NDVI / Grade", icon="📊")
-page_taxa = st.Page("pages/taxa_variavel.py", title="Taxa Variável", icon="🎯")
-page_projecao = st.Page("pages/projecao_linha.py", title="Projeção de Linha", icon="🌾")
+page_vra = st.Page("pages/vra.py", title="Taxa Variável (VRA)", icon="🎯")
+page_linhas = st.Page("pages/linhas.py", title="Projeção de Linha", icon="🌾")
 page_exportar = st.Page("pages/exportar.py", title="Exportar", icon="📤")
 
 if st.session_state.token:
     pg = st.navigation([
-        page_dashboard,
+        page_inicio,
+        page_projetos,
+        page_dashboard_file,
         page_talhoes,
         page_buffer,
         page_ndvi,
-        page_taxa,
-        page_projecao,
+        page_vra,
+        page_linhas,
         page_exportar,
     ])
 else:
