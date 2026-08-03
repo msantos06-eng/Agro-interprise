@@ -2,11 +2,13 @@ import streamlit as st
 import pandas as pd
 import sys
 import os
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 from utils.export_utils import brand_package_multi
 
+# 🔐 VERIFICAÇÃO DE LOGIN
+if "token" not in st.session_state or not st.session_state.token:
+    st.error("Você precisa fazer login para acessar esta página.")
+    st.stop()
 
 st.header("📤 Exportar para Máquinas Agrícolas")
 
@@ -15,15 +17,9 @@ if "talhoes" not in st.session_state or not st.session_state.talhoes:
 else:
     st.success("Pronto para exportar")
 
-    # ✅ CRIA AS COLUNAS ANTES DE USAR
     col_brand, col_dl = st.columns(2)
 
     with col_brand:
-        st.write("Configuração aqui")
-
-    with col_dl:
-        st.write("Download aqui")
-
         brand_opts = {
             'John Deere': '🟢 Operations Center / GS3 / GS4 / Gen4',
             'CNH':        '🔴 AFS Connect (Case) · PLM Intelligence (NH)',
@@ -31,12 +27,10 @@ else:
             'Fendt':      '⚪ VarioDoc / AGCO Connect / VARIOTERMINAL',
             'Valtra':     '🟡 Valtra Connect / SmartTouch',
         }
-
         selected = st.selectbox("Marca", list(brand_opts.keys()))
         st.info(brand_opts[selected])
 
         st.subheader("Talhões a exportar")
-
         sel_talhoes = []
         for i, t in enumerate(st.session_state.talhoes):
             tem_dados = any([
@@ -44,14 +38,12 @@ else:
                 t.get('vra_cells'),
                 t.get('lines')
             ])
-
             check = st.checkbox(
                 f"{t['nome']} -- {t['stats']['area_ha']} ha"
                 + (" ✅" if tem_dados else " (apenas limite)"),
                 value=True,
                 key=f"exp_{i}"
             )
-
             if check:
                 sel_talhoes.append(t)
 
@@ -64,23 +56,18 @@ else:
             with st.spinner("Gerando pacote..."):
                 try:
                     pkg = brand_package_multi(sel_talhoes, selected)
-
                     st.session_state.export_pkg = pkg
                     st.session_state.export_brand = selected
-
                     st.success(f"Pacote com {len(sel_talhoes)} talhão(ões) gerado!")
                     st.rerun()
-
                 except Exception as e:
                     st.error(f"Erro: {e}")
 
-    # ---------------- COLUNA DIREITA ----------------
     with col_dl:
         st.subheader("Download")
 
         if "export_pkg" in st.session_state and st.session_state.export_pkg:
             brand = st.session_state.export_brand
-
             st.download_button(
                 label=f"⬇️ Baixar pacote {brand} (.zip)",
                 data=st.session_state.export_pkg,
@@ -89,15 +76,13 @@ else:
                 use_container_width=True,
                 type="primary",
             )
-
             st.success("Pacote pronto! O ZIP contém uma pasta por talhão.")
-
         else:
             st.info("Configure e gere o pacote ao lado.")
 
         st.divider()
-        st.subheader("Resumo dos talhões")
 
+        st.subheader("Resumo dos talhões")
         df = pd.DataFrame([
             {
                 'Nome': t['nome'],
@@ -109,7 +94,6 @@ else:
             }
             for t in st.session_state.talhoes
         ])
-
         st.dataframe(df, use_container_width=True, hide_index=True)
 
         total_ha = sum(t['stats']['area_ha'] for t in st.session_state.talhoes)
