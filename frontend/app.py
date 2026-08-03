@@ -1145,46 +1145,33 @@ def dashboard():
         st.session_state.token = None
         st.rerun()
 
-    st.markdown("Selecione uma funcionalidade abaixo")
+    st.markdown("### Bem-vindo! 👋")
+    st.info("Use o menu lateral para acessar Talhões, Buffer, NDVI, Taxa Variável, Projeção de Linha e Exportar.")
 
-    # ── Tabs (só aparecem após login/cadastro) ─────────────────
-    tabs = st.tabs([
-        "🗺️ Talhões",
-        "🔵 Buffer",
-        "📊 NDVI / Grade",
-        "🎯 Taxa Variável",
-        "🌾 Proj. de Linha",
-        "📤 Exportar",
+
+# 🔥 CONTROLE CENTRAL — navegação condicional
+# As páginas de funcionalidades só existem na lista (e portanto só aparecem
+# no menu lateral) quando o usuário está logado.
+page_login = st.Page(tela_login, title="Login", icon="🔐")
+page_dashboard = st.Page(dashboard, title="Início", icon="🏠", default=True)
+page_talhoes = st.Page("pages/talhoes.py", title="Talhões", icon="🗺️")
+page_buffer = st.Page("pages/buffer.py", title="Buffer", icon="🔵")
+page_ndvi = st.Page("pages/ndvi.py", title="NDVI / Grade", icon="📊")
+page_taxa = st.Page("pages/taxa_variavel.py", title="Taxa Variável", icon="🎯")
+page_projecao = st.Page("pages/projecao_linha.py", title="Projeção de Linha", icon="🌾")
+page_exportar = st.Page("pages/exportar.py", title="Exportar", icon="📤")
+
+if st.session_state.token:
+    pg = st.navigation([
+        page_dashboard,
+        page_talhoes,
+        page_buffer,
+        page_ndvi,
+        page_taxa,
+        page_projecao,
+        page_exportar,
     ])
+else:
+    pg = st.navigation([page_login])
 
-    with tabs[0]:
-        st.subheader("🗺️ Talhões")
-        st.info("Em construção")
-
-    with tabs[1]:
-        st.subheader("🔵 Buffer")
-        st.info("Em construção")
-
-    with tabs[2]:
-        st.subheader("📊 NDVI / Grade")
-        st.info("Em construção")
-
-    with tabs[3]:
-        st.subheader("🎯 Taxa Variável")
-        st.info("Em construção")
-
-    with tabs[4]:
-        st.subheader("🌾 Projeção de Linha")
-        st.info("Em construção")
-
-    with tabs[5]:
-        st.subheader("📤 Exportar")
-        st.info("Em construção")
-
-
-# 🔥 CONTROLE CENTRAL
-if not st.session_state.token:
-    tela_login()
-    st.stop()
-
-dashboard()
+pg.run()
