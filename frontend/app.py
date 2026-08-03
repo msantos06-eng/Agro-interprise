@@ -1,17 +1,16 @@
-import base64
+from pathlib import Path
 import streamlit as st
 import requests
 
-
-def _logo_base64():
-    with open("assets/logo.png", "rb") as f:
-        return base64.b64encode(f.read()).decode()
+BASE_DIR = Path(__file__).parent
+LOGO_PATH = BASE_DIR / "assets" / "logo.png"                       # ícone sozinho (favicon)
+WORDMARK_PATH = BASE_DIR / "assets" / "conexcrop_logo_nome.png"    # ícone + "CONEXCROP"
 
 # ⚙️ CONFIG (SEMPRE PRIMEIRO)
 st.set_page_config(
     page_title="ConexCrop",
     layout="wide",
-    page_icon="assets/logo.png",  # ícone da aba do navegador
+    page_icon=str(LOGO_PATH),  # ícone da aba do navegador
 )
 
 # 🔗 API
@@ -29,18 +28,9 @@ def get_headers():
     }
 
 
-# 🖼️ CABEÇALHO COM LOGO (colada ao nome, mesma linha)
+# 🖼️ CABEÇALHO (logo + nome já prontos em uma única imagem)
 def header():
-    logo_b64 = _logo_base64()
-    st.markdown(
-        f"""
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:0.5rem;">
-            <img src="data:image/png;base64,{logo_b64}" style="height:48px;">
-            <span style="font-size:2.2rem; font-weight:700; line-height:1;">ConexCrop</span>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.image(str(WORDMARK_PATH), width=320)
 
 
 # 📺 LOGIN / CADASTRO
@@ -102,7 +92,7 @@ def dashboard():
         st.stop()
 
     # 📊 SIDEBAR
-    st.sidebar.image("assets/logo.png", width=80)
+    st.sidebar.image(str(WORDMARK_PATH), width=180)
     st.sidebar.title("Conta")
     plano = user_data.get("plan", "free")
     if plano == "free":
