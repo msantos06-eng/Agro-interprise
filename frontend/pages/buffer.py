@@ -7,7 +7,8 @@ from utils.export_utils import export_geojson
 
 # 🔐 VERIFICAÇÃO DE LOGIN
 if "token" not in st.session_state or not st.session_state.token:
-    st.switch_page("app.py")
+    st.error("Você precisa fazer login para acessar esta página.")
+    st.stop()
 
 st.header("🔵 Buffer")
 
@@ -41,22 +42,18 @@ if st.button("Gerar buffer"):
 # ---------------- MAPA ----------------
 if ta.get("geom"):
     m = folium.Map(location=[-15, -47], zoom_start=5)
-
     folium.GeoJson(
         mapping(ta["geom"]),
         name="Talhão",
         style_function=lambda x: {"color": "green", "fillOpacity": 0.15},
     ).add_to(m)
-
     if ta.get("buffer_geom"):
         folium.GeoJson(
             mapping(ta["buffer_geom"]),
             name="Buffer",
             style_function=lambda x: {"color": "blue", "fillOpacity": 0.2},
         ).add_to(m)
-
     folium.LayerControl().add_to(m)
-
     st_folium(m, width=700, height=500)
 else:
     st.warning("Este talhão ainda não possui geometria definida.")
