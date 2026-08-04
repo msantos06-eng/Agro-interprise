@@ -7,7 +7,8 @@ from utils.export_utils import brand_package_multi
 
 # 🔐 VERIFICAÇÃO DE LOGIN
 if "token" not in st.session_state or not st.session_state.token:
-    st.switch_page("app.py")
+    st.error("Você precisa fazer login para acessar esta página.")
+    st.stop()
 
 st.header("📤 Exportar para Máquinas Agrícolas")
 
